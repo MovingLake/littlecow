@@ -1,2 +1,2 @@
-# scrapelake
-Browser extensions to power Scrapelake
+# Littlecow
+Browser extensions to power Littlecow
