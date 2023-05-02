@@ -1,15 +1,15 @@
 {
     "name": "Littlecow",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Littlecow Chrome Extension, get paid for browsing the web!",
     "manifest_version": 3,
     "author": "MovingLake",
     "action": {
         "default_icon": {
-            "16": "assets/images/Littlecow-16.png",
-            "24": "assets/images/Littlecow-24.png",
-            "32": "assets/images/Littlecow-32.png",
-            "128": "assets/images/Littlecow-128.png"
+            "16": "assets/images/littlecow-16.png",
+            "24": "assets/images/littlecow-24.png",
+            "32": "assets/images/littlecow-32.png",
+            "128": "assets/images/littlecow-128.png"
         },
         "default_title": "Littlecow",
         "default_popup": "signup.html"
