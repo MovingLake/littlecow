@@ -1,0 +1,81 @@
+<html>
+  <body>
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        ul {
+            display: block;
+            list-style-type: none;
+            color: black;
+            padding: 0;
+            width: 100px;
+        }
+
+        li {
+            padding: 5px;
+            border-style: solid;
+            border-width: thin;
+            margin-top: 3px;
+            background: lightgreen;
+        }
+
+        a:link {
+            text-decoration: inherit;
+            color: inherit;
+            cursor: auto;
+        }
+
+        li:hover {
+            cursor: pointer;
+            background: lightblue;
+        }
+
+        a:hover {
+            cursor: pointer;
+            background: lightblue;
+        }
+
+        a:visited {
+            text-decoration: inherit;
+            color: inherit;
+            cursor: auto;
+        }
+    </style>
+    <div class="dropdown">
+      <div>
+        <img src="https://connector.production.movinglake.com/static/media/icons/cat_connectors/littlecow.png" alt="Avatar" style="width:50px">
+      </div>
+      <div>
+        <h3 id="email"></h3>
+      </div>
+      <div>
+        <label id="wallet" for="walletInput" hidden> 
+        Wallet Address
+        </label>
+        <input type="text" id="walletInput" placeholder="0xc56147c81601d26488a9203d17c87b110fd8976b" hidden>
+        <ul style="margin-top:0px"><li id="walletSubmit" hidden>Update Address</li></ul>
+        <span id="stats" hidden> 
+            Stats 
+        </span>
+        <div id="statsResults">
+
+        </div>
+      </div>
+      <div class="dropdown-content">
+        <ul>
+          <li id="signup">
+            Sign-Up
+          </li>
+          <li id="login">
+            Log-in
+          </li>
+          <li id="logout" hidden> 
+            Log-out
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="signup.js"></script>
+  </body>
+</html>
