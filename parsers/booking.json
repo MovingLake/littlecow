@@ -1,0 +1,66 @@
+[
+    {
+        "name": "BookingSearchPage",
+        "pathRegex": "/searchresults.*",
+        "dataFields": [
+            {
+                "name": "hotelName",
+                "selector": ".sr-hotel__name"
+            },
+            {
+                "name": "hotelPrice",
+                "selector": ".bui-price-display__value"
+            },
+            {
+                "name": "hotelImage",
+                "selector": ".hotel_image"
+            },
+            {
+                "name": "hotelDescription",
+                "selector": ".hotel_desc"
+            },
+            {
+                "name": "hotelRating",
+                "selector": ".bui-review-score__badge"
+            }
+        ]
+    },
+    {
+        "name": "BookingHotelPage",
+        "pathRegex": "/hotel.*",
+        "dataFields": [
+            {
+                "name": "hotelName",
+                "selector": ".hp__hotel-name"
+            },
+            {
+                "name": "hotelPrice",
+                "selector": ".bui-price-display__value"
+            },
+            {
+                "name": "hotelImage",
+                "selector": ".hotel_image"
+            },
+            {
+                "name": "hotelDescription",
+                "selector": ".hotel_desc"
+            },
+            {
+                "name": "hotelRating",
+                "selector": ".bui-review-score__badge"
+            },
+            {
+                "name": "hotelAddress",
+                "selector": ".hp_address_subtitle"
+            },
+            {
+                "name": "hotelFacilities",
+                "selector": ".facilitiesChecklistSection"
+            },
+            {
+                "name": "hotelRoomTypes",
+                "selector": ".roomstable"
+            }
+        ]
+    }
+]

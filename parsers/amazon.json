@@ -1,0 +1,54 @@
+[
+    {
+        "name": "AmazonSearchPage",
+        "pathRegex": "/s?k=.*",
+        "dataFields": [
+            {
+                "name": "title",
+                "selector": "h2 a span"
+            },
+            {
+                "name": "price",
+                "selector": "span.a-price span.a-offscreen"
+            },
+            {
+                "name": "image",
+                "selector": "img.s-image"
+            },
+            {
+                "name": "url",
+                "selector": "h2 a"
+            }
+        ]
+    },
+    {
+        "name": "AmazonProductPage",
+        "pathRegex": "/dp/.*",
+        "dataFields": [
+            {
+                "name": "title",
+                "selector": "#productTitle"
+            },
+            {
+                "name": "seller",
+                "selector": "#bylineInfo"
+            },
+            {
+                "name": "price",
+                "selector": "#priceblock_ourprice"
+            },
+            {
+                "name": "image",
+                "selector": "#landingImage"
+            },
+            {
+                "name": "description",
+                "selector": "#productDescription"
+            },
+            {
+                "name": "quantity",
+                "selector": "#quantity"
+            }
+        ]
+    }
+]

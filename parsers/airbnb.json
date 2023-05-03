@@ -1,0 +1,82 @@
+[
+    {
+        "name": "AirbnbSearchPage",
+        "pathRegex": "/s/.*",
+        "dataFields": [
+            {
+                "name": "title",
+                "selector": ".listing-name"
+            },
+            {
+                "name": "price",
+                "selector": ".price-amount"
+            },
+            {
+                "name": "image",
+                "selector": ".listing-img"
+            },
+            {
+                "name": "description",
+                "selector": ".listing-description"
+            },
+            {
+                "name": "rating",
+                "selector": ".star-rating"
+            }
+        ]
+    },
+    {
+        "name": "AirbnbListingPage",
+        "pathRegex": "/rooms/.*",
+        "dataFields": [
+            {
+                "name": "title",
+                "selector": ".listing-name"
+            },
+            {
+                "name": "price",
+                "selector": ".price-amount"
+            },
+            {
+                "name": "image",
+                "selector": ".listing-img"
+            },
+            {
+                "name": "description",
+                "selector": ".listing-description"
+            },
+            {
+                "name": "rating",
+                "selector": ".star-rating"
+            },
+            {
+                "name": "hostName",
+                "selector": ".host-name"
+            },
+            {
+                "name": "amenities",
+                "selector": ".amenities"
+            },
+            {
+                "name": "reviews",
+                "selector": ".reviews"
+            },
+            {
+                "name": "location",
+                "selector": ".location"
+            },
+            {
+                "name": "houseRules",
+                "selector": ".house-rules"
+            },
+            {
+                "name": "cancellationPolicy",
+                "selector": ".cancellation-policy"
+            },
+            {
+                "name": "availability",
+                "selector": ".availability"
+            }
+        ]
+    }
+]
