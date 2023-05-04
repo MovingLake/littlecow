@@ -4,20 +4,8 @@
         "pathRegex": "\\/s\\?k=.*",
         "dataFields": [
             {
-                "name": "title",
-                "selector": "h2 a span"
-            },
-            {
-                "name": "price",
-                "selector": "span.a-price span.a-offscreen"
-            },
-            {
-                "name": "image",
-                "selector": "img.s-image"
-            },
-            {
-                "name": "url",
-                "selector": "h2 a"
+                "name": "searchDiv",
+                "selector": "#search"
             }
         ]
     },
@@ -26,32 +14,8 @@
         "pathRegex": "\\/dp\\/.*",
         "dataFields": [
             {
-                "name": "title",
-                "selector": "#productTitle"
-            },
-            {
-                "name": "seller",
-                "selector": "#bylineInfo"
-            },
-            {
-                "name": "price",
-                "selector": "#corePrice_feature_div span.a-offscreen"
-            },
-            {
-                "name": "image",
-                "selector": ".imgTagWrapper img"
-            },
-            {
-                "name": "description",
-                "selector": "#productDescription"
-            },
-            {
-                "name": "brand",
-                "selector": "#bylineInfo"
-            },
-            {
-                "name": "productDetails",
-                "selector": "#detailBullets_feature_div span"
+                "name": "dpDiv",
+                "selector": "#dp"
             }
         ]
     }

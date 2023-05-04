@@ -30,23 +30,20 @@ function parseHTML(parserConfig) {
                 console.log("[Littlecow] No element found for selector: " + JSON.stringify(cfg));
                 continue;
             }
-            if (element.isArray()) {
-                const values = [];
-                for (const value of element) {
-                    if (cfg.type === "image") {
-                        values.push(value.src);
-                    } else {
-                        values.push(value.innerText);
-                    }
-                }
-                data[cfg.name] = values;
-            } else {
-                if (element.type === "image") {
-                    data[cfg.name] = element.src;
+            const values = [];
+            for (const value of element) {
+                if (cfg.type === "image") {
+                    values.push(value.src);
+                } else if (cfg.type === "link") {
+                    values.push(value.href);
+                } else if (cfg.nodeName) {
+                    // If is a node, get the innerHTML
+                    values.push(value.innerHTML);
                 } else {
-                    data[cfg.name] = element.innerText;
+                    values.push(value.textContent);
                 }
             }
+            data[cfg.name] = values;
         }
         break;
     }
