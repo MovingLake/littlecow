@@ -4,30 +4,33 @@ const littlecowDomain = "https://littlecow.movinglake.com";
 document.getElementById("signup").addEventListener("click", signup);
 document.getElementById("login").addEventListener("click", signup);
 document.getElementById("logout").addEventListener("click", logout);
-document.getElementById("stats").addEventListener("click", showStats);
 document.getElementById("walletSubmit").addEventListener("click", setWallet);
+document.getElementById("sendPrivateData").addEventListener("click", setPrivacy);
 
 function toggleButtons(loggedIn) {
     if (loggedIn) {
         document.getElementById("signup").hidden = true;
         document.getElementById("login").hidden = true;
         document.getElementById("logout").hidden = false;
-        document.getElementById("stats").hidden = false;
         document.getElementById("statsResults").hidden = false;
         document.getElementById("wallet").hidden = false;
         document.getElementById("walletInput").hidden = false;
         document.getElementById("walletSubmit").hidden = false;
+        document.getElementById("sendPrivateData").hidden = false;
+        document.getElementById("sendPrivateDataLabel").hidden = false;
+        getPrivacy();
+        getWallet();
         showStats();
     } else {
         document.getElementById("signup").hidden = false;
         document.getElementById("login").hidden = false;
         document.getElementById("logout").hidden = true;
-        document.getElementById("stats").hidden = true;
         document.getElementById("statsResults").hidden = true;
         document.getElementById("wallet").hidden = true;
         document.getElementById("walletInput").hidden = true;
         document.getElementById("walletSubmit").hidden = true;
-        getWallet();
+        document.getElementById("sendPrivateData").hidden = true;
+        document.getElementById("sendPrivateDataLabel").hidden = true;
     }
 }
 
@@ -170,6 +173,7 @@ function setWallet() {
                 console.error('[set-wallet] '+ JSON.stringify(httpResponse));
                 return;
             }
+            alert("Wallet set successfully!");
         });
     });
 }
@@ -181,7 +185,7 @@ function getWallet() {
         }
 
         fetch(littlecowDomain+'/v1/get-wallet', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -195,8 +199,59 @@ function getWallet() {
                 return;
             }
             httpResponse.json().then((value) => {
-                document.getElementById("wallet").innerHTML = value.wallet;
+                document.getElementById("walletInput").innerHTML = value.wallet;
+                fadeInAndOut(document.getElementById("rpcStatus"));
             });
         });
     });
+}
+function setPrivacy() {
+    chrome.storage.local.set({"privacy": document.getElementById("sendPrivateData").checked }, () => {
+        console.log('Stored privacy!');
+    });
+}
+function getPrivacy() {
+    chrome.storage.local.get(["privacy"], (value) => {
+        document.getElementById("sendPrivateData").checked = value.privacy;
+    });
+}
+
+
+
+
+function fadeInAndOut(element) {
+    element.hidden = true;
+    unfade(element);
+    setTimeout(function() {
+        fade(element);
+        setTimeout(function() {
+            element.hidden = true;
+        }
+        , 1000);
+    }, 1000);
+}
+
+function fade(element) {
+    var op = 1;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+function unfade(element) {
+    var op = 0.1;  // initial opacity
+    element.style.display = 'block';
+    var timer = setInterval(function () {
+        if (op >= 1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op += op * 0.1;
+    }, 10);
 }

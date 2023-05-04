@@ -17,17 +17,36 @@ function parseHTML(parserConfig) {
     for (const pageParser in parserConfig) {
         const parser = parserConfig[pageParser];
         const pathRegex = new RegExp(parser.pathRegex);
-        if (!pathRegex.test(window.location.pathname)) {
+        if (!pathRegex.test(location.pathname+location.search)) {
             continue;
         }
+        console.log("[Littlecow] Found parser: " + parser.name + " for path: " + window.location.pathname);
+        console.log("[Littlecow] Using parser: " + JSON.stringify(parser));
         data["pageParser"] = parser.name; 
         for (const selectorConfig in parser.dataFields) {
-            const element = document.querySelector(selectorConfig.selector);
+            const cfg = parser.dataFields[selectorConfig];
+            const element = document.querySelectorAll(cfg.selector);
             if (!element) {
-                console.log("[Littlecow] No element found for selector: " + selector);
+                console.log("[Littlecow] No element found for selector: " + JSON.stringify(cfg));
                 continue;
             }
-            data[selectorConfig.name] = element.innerText;
+            if (element.isArray()) {
+                const values = [];
+                for (const value of element) {
+                    if (cfg.type === "image") {
+                        values.push(value.src);
+                    } else {
+                        values.push(value.innerText);
+                    }
+                }
+                data[cfg.name] = values;
+            } else {
+                if (element.type === "image") {
+                    data[cfg.name] = element.src;
+                } else {
+                    data[cfg.name] = element.innerText;
+                }
+            }
         }
         break;
     }
@@ -46,30 +65,9 @@ function parseAndSend(email, access_token) {
     // Get the description of the page
     const description = document.querySelector('meta[name="description"]')?.content;
 
-    // Get the domain of the page.
-    const domain = window.location.hostname.replace(/^www\./, "");
-    // Get the mapping for the domain.
-    const mapping = mappings[domain] || mappings[domain.replace(/\..*/, ".*")] || "Other";
-    if (mapping === "Other") {
-        console.log("[Littlecow] This page is not supported.");
-        return;
-    }
-
-    // Fetch from Github the json parser file.
-    fetch("https://raw.githubusercontent.com/movinglake/littlecow/master/parsers/" + mapping + ".json").then((response) => {
-        if (!response.ok) {
-            console.error(response);
-            return;
-        }
-        response.text().then((jsonFile) => {
-            // Parse the json file.
-            const parserConfig = JSON.parse(jsonFile);
-            // Parse the HTML.
-            const data = parseHTML(parserConfig);
-            if (!data) {
-                console.log("[Littlecow] No data found on this page.");
-                return;
-            }
+    chrome.storage.local.get(["privacy"], (value) => {
+        if (value.privacy) {
+            console.log("[Littlecow] Private data is enabled. Send full HTML.");
             // Send the data using a REST API
             fetch(littlecowDomain + '/v1/post-page', {
                 method: 'POST',
@@ -77,26 +75,80 @@ function parseAndSend(email, access_token) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    url,
-                    title,
-                    description,
-                    data,
-                    email,
-                    access_token,
-                    userAgent,
-                    screenWidth,
+                    email: email,
+                    access_token: access_token,
+                    url: url,
+                    title: title,
+                    privacy: value.privacy,
+                    userAgent: userAgent,
+                    screenWidth: screenWidth,
+                    description: description,
+                    html: document.documentElement.outerHTML
                 }),
             }).then((httpResponse) => {
                 if (!httpResponse.ok) {
                     console.error('[post-page] ' + JSON.stringify(httpResponse));
                     return;
                 }
+                console.log("[Littlecow] Page sent successfully.");
+            });
+        } else {
+            console.log("[Littlecow] Privacy is disabled. Send only relevant data.");
 
-                httpResponse.json().then((value) => {
-                    console.log(value);
+            // Get the domain of the page.
+            const domain = window.location.hostname.replace(/^www\./, "");
+            // Get the mapping for the domain.
+            const mapping = mappings[domain] || mappings[domain.replace(/\..*/, ".*")] || "Other";
+            if (mapping === "Other") {
+                console.log("[Littlecow] This page is not supported.");
+                return;
+            }
+
+            // Fetch from Github the json parser file.
+            fetch("https://raw.githubusercontent.com/movinglake/littlecow/master/parsers/" + mapping + ".json").then((response) => {
+                if (!response.ok) {
+                    console.error(response);
+                    return;
+                }
+                response.text().then((jsonFile) => {
+                    // Parse the json file.
+                    const parserConfig = JSON.parse(jsonFile);
+                    // Parse the HTML.
+                    const data = parseHTML(parserConfig);
+                    if (!data) {
+                        console.log("[Littlecow] No data found on this page.");
+                        return;
+                    }
+                    // Send the data using a REST API
+                    fetch(littlecowDomain + '/v1/post-page', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            url,
+                            title,
+                            description,
+                            data,
+                            email,
+                            access_token,
+                            userAgent,
+                            screenWidth,
+                            privacy: value.privacy,
+                        }),
+                    }).then((httpResponse) => {
+                        if (!httpResponse.ok) {
+                            console.error('[post-page] ' + JSON.stringify(httpResponse));
+                            return;
+                        }
+
+                        httpResponse.json().then((value) => {
+                            console.log(value);
+                        });
+                    });
                 });
             });
-        });
+        }
     });
 }
 

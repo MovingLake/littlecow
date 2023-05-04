@@ -50,25 +50,24 @@
         <h3 id="email"></h3>
       </div>
       <div>
+        <span id="rpcStatus" hidden><img width="50px" src="https://connector.production.movinglake.com/static/media/icons/cat_connectors/littlecow.png" /></span>
         <label id="wallet" for="walletInput" hidden> 
         Wallet Address
         </label>
         <input type="text" id="walletInput" placeholder="0xc56147c81601d26488a9203d17c87b110fd8976b" hidden>
         <ul style="margin-top:0px"><li id="walletSubmit" hidden>Update Address</li></ul>
-        <span id="stats" hidden> 
-            Stats 
-        </span>
-        <div id="statsResults">
+        <input type="checkbox" id="sendPrivateData" hidden><label id="sendPrivateDataLabel" for="sendPrivateData" hidden>Send private data</label>
+        <div id="statsResults" style="margin-top: 25px">
 
         </div>
       </div>
       <div class="dropdown-content">
         <ul>
           <li id="signup">
-            Sign-Up
+            Google Sign-Up
           </li>
           <li id="login">
-            Log-in
+            Google Log-in
           </li>
           <li id="logout" hidden> 
             Log-out

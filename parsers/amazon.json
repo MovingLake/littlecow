@@ -1,7 +1,7 @@
 [
     {
         "name": "AmazonSearchPage",
-        "pathRegex": "/s?k=.*",
+        "pathRegex": "\\/s\\?k=.*",
         "dataFields": [
             {
                 "name": "title",
@@ -23,7 +23,7 @@
     },
     {
         "name": "AmazonProductPage",
-        "pathRegex": "/dp/.*",
+        "pathRegex": "\\/dp\\/.*",
         "dataFields": [
             {
                 "name": "title",
@@ -35,19 +35,23 @@
             },
             {
                 "name": "price",
-                "selector": "#priceblock_ourprice"
+                "selector": "#corePrice_feature_div span.a-offscreen"
             },
             {
                 "name": "image",
-                "selector": "#landingImage"
+                "selector": ".imgTagWrapper img"
             },
             {
                 "name": "description",
                 "selector": "#productDescription"
             },
             {
-                "name": "quantity",
-                "selector": "#quantity"
+                "name": "brand",
+                "selector": "#bylineInfo"
+            },
+            {
+                "name": "productDetails",
+                "selector": "#detailBullets_feature_div span"
             }
         ]
     }
