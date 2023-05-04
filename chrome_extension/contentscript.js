@@ -32,16 +32,7 @@ function parseHTML(parserConfig) {
             }
             const values = [];
             for (const value of element) {
-                if (cfg.type === "image") {
-                    values.push(value.src);
-                } else if (cfg.type === "link") {
-                    values.push(value.href);
-                } else if (cfg.nodeName) {
-                    // If is a node, get the innerHTML
-                    values.push(value.innerHTML);
-                } else {
-                    values.push(value.textContent);
-                }
+                values.push(value.innerHTML);
             }
             data[cfg.name] = values;
         }
