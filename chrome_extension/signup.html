@@ -41,6 +41,23 @@
             color: inherit;
             cursor: auto;
         }
+
+        #statsResults {
+            margin-top: 25px;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #D6EEEE;
+        }
     </style>
     <div class="dropdown">
       <div>
@@ -57,7 +74,7 @@
         <input type="text" id="walletInput" placeholder="0xc56147c81601d26488a9203d17c87b110fd8976b" hidden>
         <ul style="margin-top:0px"><li id="walletSubmit" hidden>Update Address</li></ul>
         <input type="checkbox" id="sendPrivateData" hidden><label id="sendPrivateDataLabel" for="sendPrivateData" hidden>Send private data</label>
-        <div id="statsResults" style="margin-top: 25px">
+        <div id="statsResults">
 
         </div>
       </div>

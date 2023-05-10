@@ -82,6 +82,22 @@ chrome.storage.local.get(["email", "access_token"], (value) => {
     });
 });
 
+function _createStatsTable(stats) {
+    let table = "<table><tr><th>Page</th><th>Views</th></tr>";
+    total = 0;
+    for (let url in stats) {
+        if (url == 'total') {
+            total = stats[url];
+            continue;
+        }
+        table += "<tr><td>" + url + "</td><td>" + stats[url] + "</td></tr>";
+    }
+    table += "<tr><td><strong>Total</strong></td><td>" + total + "</td></tr>";
+
+    table += "</table>";
+    return table;
+}
+
 function signup() {
     chrome.identity.getAuthToken({ interactive: true }, (token)  => {
         if (token) {
@@ -146,7 +162,7 @@ function showStats() {
                 return;
             }
             httpResponse.json().then((value) => {
-                document.getElementById("statsResults").innerHTML = JSON.stringify(value.stats);
+                document.getElementById("statsResults").innerHTML = _createStatsTable(value.stats);
             });
         });
     });
@@ -199,8 +215,7 @@ function getWallet() {
                 return;
             }
             httpResponse.json().then((value) => {
-                document.getElementById("walletInput").innerHTML = value.wallet;
-                fadeInAndOut(document.getElementById("rpcStatus"));
+                document.getElementById("walletInput").value = value.wallet;
             });
         });
     });
@@ -214,44 +229,4 @@ function getPrivacy() {
     chrome.storage.local.get(["privacy"], (value) => {
         document.getElementById("sendPrivateData").checked = value.privacy;
     });
-}
-
-
-
-
-function fadeInAndOut(element) {
-    element.hidden = true;
-    unfade(element);
-    setTimeout(function() {
-        fade(element);
-        setTimeout(function() {
-            element.hidden = true;
-        }
-        , 1000);
-    }, 1000);
-}
-
-function fade(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op <= 0.1){
-            clearInterval(timer);
-            element.style.display = 'none';
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op -= op * 0.1;
-    }, 50);
-}
-function unfade(element) {
-    var op = 0.1;  // initial opacity
-    element.style.display = 'block';
-    var timer = setInterval(function () {
-        if (op >= 1){
-            clearInterval(timer);
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op += op * 0.1;
-    }, 10);
 }
